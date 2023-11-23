@@ -1,0 +1,27 @@
+import React from 'react';
+import styles from './navbar.module.css';
+import {useLocation} from 'react-router-dom';
+
+function Navbar() {
+
+    const location = useLocation();
+
+    return (
+        <ul className={styles.navbarLists}>
+            <li className={styles.navbarList}>
+                <a href="/welcome" className={location.pathname === '/welcome' ? `${styles.navItem} ${styles.active}` : styles.navItem}>Home</a>
+            </li>
+            <li className={styles.navbarList}>
+                <a href="/upload-products" className={location.pathname === '/upload-products' ? `${styles.navItem} ${styles.active}` : styles.navItem}>Upload products</a>
+            </li>
+            <li className={styles.navbarList}>
+                <a href="/product/all products" className={location.pathname === '/product/all products' ? `${styles.navItem} ${styles.active}` : styles.navItem}>Products</a>
+            </li>
+            <li className={styles.navbarList}>
+                <a href="/orders" className={location.pathname === '/others' ? `${styles.navItem} ${styles.active}` : styles.navItem}>Orders</a>
+            </li>
+        </ul>
+    )
+}
+
+export default Navbar

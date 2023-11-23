@@ -1,0 +1,90 @@
+.addPhotoContainer {
+    position: relative;
+    width: 100%;
+    padding: 5px 0;
+    margin: 5px 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.label {
+    font-size: 13px;
+}
+
+.inputs {
+    width: 290px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.input {
+    width: 100%;
+    height: 25px;
+    border: 1px solid lightgray;
+    padding: 0;
+    padding-left: 5px;
+    box-sizing: border-box;
+    margin: 5px auto;
+}
+
+.btn {
+    width: 100%;
+    height: 28px;
+    margin: 5px 0;
+    border: 1px solid green;
+    background-color: green;
+    color: white;
+    cursor: pointer;
+}
+
+.btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.checkContainer {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    animation: startup 0.5s ease-out forwards;
+}
+
+@keyframes startup {
+    100% {
+        opacity: 1;
+    }
+}
+
+.check {
+    font-size: 15px;
+    color: white;
+}
+
+@media (max-width: 550px) {
+    .addPhotoContainer {
+        flex-direction: column;
+    }
+
+    .inputs {
+        width: 100%;
+    }
+
+    .checkContainer {
+        top: 0;
+        right: -100%;
+    }
+}
