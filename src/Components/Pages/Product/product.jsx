@@ -12,7 +12,7 @@ function Product() {
     
     useEffect(() => {
         if (params.product){
-            fetch('http://localhost:8080/fetch-product', {
+            fetch('https://boxdelabonita-server.onrender.com/fetch-product', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

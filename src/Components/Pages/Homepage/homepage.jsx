@@ -10,7 +10,7 @@ function Homepage() {
     const [products, setProducts] = useState({});
 
     // useEffect(() => {
-    //     fetch('http://localhost:8080/fetch-products').then(res => res.json()).then(data => {
+    //     fetch('https://boxdelabonita-server.onrender.com/fetch-products').then(res => res.json()).then(data => {
     //        console.log(data.data); 
     //     }).catch(err => console.log(err));
     // }, [])

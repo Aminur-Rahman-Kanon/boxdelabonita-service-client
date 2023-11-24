@@ -20,7 +20,7 @@ function AddNewImg({ id, category, title }) {
                 const formData = new FormData();
                 formData.append('data', JSON.stringify({ title, category }))
                 formData.append('photo', img);
-                await fetch('http://localhost:8080/add-photo', {
+                await fetch('https://boxdelabonita-server.onrender.com/add-photo', {
                     method: 'POST',
                     
                     body: formData

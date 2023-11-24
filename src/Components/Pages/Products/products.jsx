@@ -28,7 +28,7 @@ function Products() {
     });
 
     useEffect(() => {
-        fetch('http://localhost:8080/fetch-products').then(res => res.json()).then(data => {
+        fetch('https://boxdelabonita-server.onrender.com/fetch-products').then(res => res.json()).then(data => {
             if (data.data){
                 setProducts(data.data);
             }

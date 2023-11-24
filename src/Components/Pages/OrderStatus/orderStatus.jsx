@@ -15,7 +15,7 @@ const OrderStatus = () => {
     const [changeOrderStatus, setChangeOrderStatus] = useState('');
 
     useEffect(() => {
-        fetch('http://localhost:8080/fetch-placed-orders')
+        fetch('https://boxdelabonita-server.onrender.com/fetch-placed-orders')
         .then(res => res.json())
         .then(data => {
             if (data.data){
