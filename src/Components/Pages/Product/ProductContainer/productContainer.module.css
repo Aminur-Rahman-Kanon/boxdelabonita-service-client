@@ -488,4 +488,8 @@
         width: 100%;
         align-self: center;
     }
+
+    .removeProduct {
+        width: 100%;
+    }
 }
