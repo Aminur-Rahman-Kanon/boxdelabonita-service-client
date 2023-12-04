@@ -35,13 +35,13 @@ const OrderStatus = () => {
             return prd.orderInfo.orderStatus === orderStatus;
         }
     }).map((item, idx) => {
-        return <div key={item.orderInfo.orderId} className={styles.orderContainer}>
+        return <div key={item.orderInfo._id} className={styles.orderContainer}>
             <div className={styles.infoContainer}>
                 <span className={styles.customerInfo} style={{fontWeight: 'bold', fontSize: '14px'}}>{idx+1}</span>
                 <div className={styles.orderElement}>
                     <h4 className={styles.heading4}>Order Info</h4>
                     <div className={styles.customerInfoContainer}>
-                        <span className={styles.customerInfo}>Date: {item.orderInfo.date}</span>
+                        <span className={styles.customerInfo}>Date: {item.orderInfo.dateTime}</span>
                         <span className={styles.customerInfo}>Order Id: {item.orderInfo.orderId}</span>
                         <span className={styles.customerInfo}>Order Status: {item.orderInfo.orderStatus}</span>
                         <span className={styles.customerInfo}>Payment Method: {item.orderInfo.paymentMethod}</span>
@@ -85,7 +85,7 @@ const OrderStatus = () => {
                 </div>
             </div>
             <div className={styles.actionContainer}>
-                {status.map((btn, idx) => <ChangeStatusBtn id={idx+1} changeStatus={btn} currentStatus={item.orderInfo.orderStatus} setChangeOrderStatus={setChangeOrderStatus}/>)}
+                {status.map((btn, idx) => <ChangeStatusBtn key={idx} id={item._id} changeStatus={btn} currentStatus={item.orderInfo.orderStatus} setChangeOrderStatus={setChangeOrderStatus}/>)}
             </div>
         </div>
     })
@@ -105,7 +105,7 @@ const OrderStatus = () => {
                     <span className={styles.sidebarItemP}>New orders</span>
                     <FontAwesomeIcon icon={faStar} className={styles.sidebarIcon}/>
                 </div>
-                <div className={orderStatus === 'in proccess' ? `${styles.sidebarItem} ${styles.active}` : styles.sidebarItem} onClick={() => setOrderStatus('in proccess')}>
+                <div className={orderStatus === 'processing' ? `${styles.sidebarItem} ${styles.active}` : styles.sidebarItem} onClick={() => setOrderStatus('processing')}>
                     <span className={styles.sidebarItemP}>In process orders</span>
                     <FontAwesomeIcon icon={faGear} className={styles.sidebarIcon}/>
                 </div>

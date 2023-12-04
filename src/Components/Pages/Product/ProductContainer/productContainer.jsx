@@ -43,6 +43,8 @@ function ProductContainer({ product }) {
     const [moreImgs, setMoreImgs] = useState(0);
     const [newColor, setNewColor] = useState([]);
 
+    console.log(colors);
+
     useEffect(() => {
         const imgs = JSON.parse(JSON.stringify(product.img));
         setImg(imgs);
@@ -56,7 +58,6 @@ function ProductContainer({ product }) {
 
         await fetch('https://boxdelabonita-server.onrender.com/remove-img',{
             method: 'POST',
-            
             headers: {
                 'Content-Type': 'application/json'
             },
