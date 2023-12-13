@@ -57,7 +57,7 @@ const OrderStatus = () => {
                         <span className={styles.customerInfo}>Phone: {item.customerInfo.phone}</span>
                         <span className={styles.customerInfo}>Address: {item.customerInfo.address}</span>
                         <span className={styles.customerInfo}>City: {item.customerInfo.city}</span>
-                        <span className={styles.customerInfo}>Area: {item.customerInfo.area}</span>
+                        {/* <span className={styles.customerInfo}>Area: {item.customerInfo.area}</span> */}
                     </div>
                 </div>
             </div>
