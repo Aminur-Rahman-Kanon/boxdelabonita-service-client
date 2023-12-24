@@ -14,6 +14,10 @@ const OrderStatus = () => {
 
     const [changeOrderStatus, setChangeOrderStatus] = useState('');
 
+    const [newItems, setNewItems] = useState(0);
+
+    const [count, setCount] = useState(0);
+
     useEffect(() => {
         fetch('https://boxdelabonita-server.onrender.com/fetch-placed-orders')
         .then(res => res.json())
@@ -26,6 +30,26 @@ const OrderStatus = () => {
             console.log(err);
         })
     }, [ changeOrderStatus ]);
+
+    useEffect(() => {
+        fetch('https://boxdelabonita-server.onrender.com/fetch-placed-orders')
+        .then(res => res.json())
+        .then(data => {
+            if (data.data){
+                let newItem = 0;
+                data.data.forEach(newItm => {
+                    if (newItm.orderInfo.orderStatus === 'pending'){
+                        newItem ++;
+                    }
+                })
+                setNewItems(newItem);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }, [count])
+
 
     const displayOrderStatus = orders.length ? orders.filter(prd => {
         if (orderStatus === 'all orders'){
@@ -46,7 +70,7 @@ const OrderStatus = () => {
                         <span className={styles.customerInfo}>Order Status: {item.orderInfo.orderStatus}</span>
                         <span className={styles.customerInfo}>Payment Method: {item.orderInfo.paymentMethod}</span>
                         <span className={styles.customerInfo}>Delivery Charge: {item.orderInfo.deliveryCharge}</span>
-                        <span className={styles.customerInfo}>Total Price: {item.orderInfo.totalPrice + item.orderInfo.deliveryCharge}</span>
+                        <span className={styles.customerInfo}>Grand Total: {item.orderInfo.totalPrice + item.orderInfo.deliveryCharge}</span>
                     </div>
                 </div>
                 <div className={styles.orderElement}>
@@ -65,27 +89,28 @@ const OrderStatus = () => {
                 <h4 className={styles.heading4}>Products</h4>
                 <div className={styles.products}>
                     {
-                        Object.values(item.products).map(product => <div key={product._id} className={styles.product}>
+                        Object.values(item.products).map(prd => <div key={prd._id} className={styles.product}>
                             <div className={styles.imgContainer}>
-                                <img src={product.img} alt="product" className={styles.productImg} />
+                                <img src={prd.product.img[0]} alt="product" className={styles.productImg} />
                             </div>
                             <div className={styles.productDetailsContainer}>
                                 <div className={styles.colorContainer}>
                                     <span className={styles.customerInfo}>Color: </span>
                                     <div className={styles.colors}>
-                                        {product.color.map((clr, idx) => <span key={idx} className={styles.color} style={{backgroundColor : `${clr}`}}></span>)}
+                                        {prd.color.map((clr, idx) => <span key={idx} className={styles.color} style={{backgroundColor : `${clr}`}}></span>)}
                                     </div>
                                 </div>
-                                <span className={styles.customerInfo}>Title: {product.title}</span>
-                                <span className={styles.customerInfo}>Quantity: {product.quantity}</span>
-                                <span className={styles.customerInfo}>Price: {product.price}</span>
+                                <span className={styles.customerInfo}>Title: {prd.product.title}</span>
+                                <span className={styles.customerInfo}>Quantity: {prd.quantity}</span>
+                                <span className={styles.customerInfo}>Price: {prd.price}</span>
+                                <span className={styles.customerInfo}>Item Total: {prd.quantity * prd.price}</span>
                             </div>
                         </div>)
                     }
                 </div>
             </div>
             <div className={styles.actionContainer}>
-                {status.map((btn, idx) => <ChangeStatusBtn key={idx} id={item._id} changeStatus={btn} currentStatus={item.orderInfo.orderStatus} setChangeOrderStatus={setChangeOrderStatus}/>)}
+                {status.map((btn, idx) => <ChangeStatusBtn key={idx} id={item._id} toggleCount={setCount} changeStatus={btn} currentStatus={item.orderInfo.orderStatus} setChangeOrderStatus={setChangeOrderStatus}/>)}
             </div>
         </div>
     })
@@ -104,6 +129,7 @@ const OrderStatus = () => {
                 <div className={orderStatus === 'pending' ? `${styles.sidebarItem} ${styles.active}` : styles.sidebarItem} onClick={() => setOrderStatus('pending')}>
                     <span className={styles.sidebarItemP}>New orders</span>
                     <FontAwesomeIcon icon={faStar} className={styles.sidebarIcon}/>
+                    <div className={styles.orderCountContainer}>{newItems}</div>
                 </div>
                 <div className={orderStatus === 'processing' ? `${styles.sidebarItem} ${styles.active}` : styles.sidebarItem} onClick={() => setOrderStatus('processing')}>
                     <span className={styles.sidebarItemP}>In process orders</span>

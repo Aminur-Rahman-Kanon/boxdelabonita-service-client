@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 
-const ChangeStatusBtn = ({ id, changeStatus, currentStatus, setChangeOrderStatus }) => {
+const ChangeStatusBtn = ({ id, changeStatus, toggleCount, currentStatus, setChangeOrderStatus }) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +22,8 @@ const ChangeStatusBtn = ({ id, changeStatus, currentStatus, setChangeOrderStatus
             if (data.status === 'success'){
                 setChangeOrderStatus(changeStatus);
                 setIsLoading(false);
-                return toast.success(`Order status changed to ${changeStatus}`);
+                toast.success(`Order status changed to ${changeStatus}`);
+                window.location.reload()
             }
             else {
                 setIsLoading(false);
