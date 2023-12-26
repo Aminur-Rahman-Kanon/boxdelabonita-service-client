@@ -80,7 +80,6 @@ function UploadProducts() {
             
             body: formData
         }).then(res => res.json()).then(data => {
-            console.log(data);
             setSpinner(false);
             setStatus(data);
             setBackdrop(true);
@@ -180,7 +179,7 @@ function UploadProducts() {
                     <div className={styles.addPhotoBtn} onClick={() => setImgCount(imgCount => imgCount+1)}>Add Photo</div>
                 </div>
                 <button onClick={submitHandler}
-                        disabled={!category || !subCategory || !stock || !title || !price || !description || !imgs.length}
+                        disabled={!category || !subCategory || !title || !price || !description || !imgs.length}
                         className={styles.submitBtn}>Submit</button>
             </form>
         </div>
