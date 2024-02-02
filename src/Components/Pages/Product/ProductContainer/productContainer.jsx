@@ -23,6 +23,7 @@ function ProductContainer({ product }) {
     const [discountPrice, setDiscountPrice] = useState(product.price.discountedPrice);
     const [colors, setColors] = useState(product.color);
     const [description, setDiscription] = useState(product.description);
+    const [landingDescription, setLandingDescription] = useState(product.landingDescription);
     const [spinner, setSpinner] = useState(false);
     const [showRemovePrompt, setShowRemovePrompt] = useState(false);
     const [removeId, setRemoveId] = useState(null);
@@ -30,7 +31,6 @@ function ProductContainer({ product }) {
     const [removeImgStatus, setRemoveImgStatus] = useState('');
     const [removeStatus, setRemoveStatus] = useState(false);
     const [removeProductMsg, setRemoveProductMsg] = useState(false);
-    const [newImgColor, setNewImgColor] = useState('');
     const [showChangeImg, setShowChangeImg] = useState(false);
     const [changeImg, setChangeImg] = useState(null);
     const [changeImgId, setChangeImgId] = useState(null);
@@ -42,8 +42,6 @@ function ProductContainer({ product }) {
     const [showUpdateDetailsMsg, setShowUpdateDetailsMsg] = useState(false);
     const [moreImgs, setMoreImgs] = useState(0);
     const [newColor, setNewColor] = useState([]);
-
-    console.log(colors);
 
     useEffect(() => {
         const imgs = JSON.parse(JSON.stringify(product.img));
@@ -136,6 +134,7 @@ function ProductContainer({ product }) {
         const data = {
             title: title.trim(),
             description: description.trim(),
+            landingDescription: landingDescription.trim(),
             productCategory,
             productSubCategory,
             stock,
@@ -358,6 +357,13 @@ function ProductContainer({ product }) {
                                   placeholder='Product Description'
                                   value={description}
                                   onChange={(e) => setDiscription(e.target.value)} />
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <label className={styles.label}>Landing Page Description</label>
+                        <textarea className={styles.textarea}
+                                  placeholder='Landing Page Description'
+                                  value={landingDescription}
+                                  onChange={(e) => setLandingDescription(e.target.value)} />
                     </fieldset>
                     <div className={styles.displayUpdateMsg} style={showUpdateDetailsMsg ? {display: 'flex'} : {display: 'none'}}>
                         <UpdateMsg status={updateDetailsStatus}/>

@@ -27,6 +27,7 @@ function UploadProducts() {
     const [imgCount, setImgCount] = useState(0);
     const [colors, setColors] = useState([])
     const [description, setDescription] = useState('');
+    const [landingDescription, setLandingDescription] = useState('');
     const [spinner, setSpinner] = useState(false);
     const [status, setStatus] = useState('');
     const [displayMsg, setDisplayMsg] = useState(false);
@@ -70,7 +71,7 @@ function UploadProducts() {
         }
         
         formData.append('data', JSON.stringify({ 
-            productCategory, productSubCategory, stock, title, productPrice, description, rating, colors
+            productCategory, productSubCategory, stock, title, productPrice, description, landingDescription, rating, colors
          }));
 
         imgs.forEach(img => formData.append('photo', img));
@@ -166,6 +167,12 @@ function UploadProducts() {
                         <textarea placeholder='Product Description'
                                 className={styles.textarea}
                                 onChange={(e) => setDescription(e.target.value.trim())}/>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <label className={styles.label}>Landing Page Description</label>
+                        <textarea placeholder='Landing Page Description'
+                                className={styles.textarea}
+                                onChange={(e) => setLandingDescription(e.target.value.trim())}/>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
                         <label className={styles.label}>Colors</label>
