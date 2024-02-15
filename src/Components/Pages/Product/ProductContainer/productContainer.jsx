@@ -133,8 +133,8 @@ function ProductContainer({ product }) {
         setUpdateDetailsSpinner(true);
         const data = {
             title: title.trim(),
-            description: description.trim(),
-            landingDescription: landingDescription.trim(),
+            description: description ? description.trim() : description,
+            landingDescription: landingDescription ? landingDescription.trim() : landingDescription,
             productCategory,
             productSubCategory,
             stock,
@@ -354,9 +354,10 @@ function ProductContainer({ product }) {
                     <fieldset className={styles.fieldset}>
                         <label className={styles.label}>Description</label>
                         <textarea className={styles.textarea}
+                                  id='description'
                                   placeholder='Product Description'
                                   value={description}
-                                  onChange={(e) => setDiscription(e.target.value)} />
+                                onChange={(e) => setDiscription(e.target.value)}/>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
                         <label className={styles.label}>Landing Page Description</label>

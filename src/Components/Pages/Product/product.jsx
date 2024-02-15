@@ -21,7 +21,6 @@ function Product() {
                 body: JSON.stringify({ product: params.product })
             }).then(res => res.json()).then(data => {
                 if (data.data) {
-                    console.log(data.data);
                     setProduct(data.data[0]);
                 }
             }).catch(err => setError(true));
