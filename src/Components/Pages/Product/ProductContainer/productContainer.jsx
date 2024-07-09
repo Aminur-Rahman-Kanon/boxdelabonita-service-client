@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './productContainer.module.css';
 import { category, subCategory } from '../../../Others/Data/data';
-import AddNewImg from '../AddNewImg/addNewImg';
 import Spinner from '../../../Others/Spinner/spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -56,7 +55,7 @@ function ProductContainer({ product }) {
         e.preventDefault();
         setRemoveBtnSpinner(true);
 
-        await fetch('https://boxdelabonita-server.onrender.com/remove-img',{
+        await fetch('http://localhost:8080/remove-img',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -170,6 +169,12 @@ function ProductContainer({ product }) {
         })
     }
 
+    const statusFailedBtnHandler = () => {
+        setRemoveImgStatus('');
+        setRemoveStatus(false);
+        setShowRemovePrompt(false);
+    }
+
     let displayImg;
 
     if (Object.keys(img).length){
@@ -201,7 +206,7 @@ function ProductContainer({ product }) {
                 </div>
             </div>
             <div className={styles.removeStatusContainer} style={removeStatus && removeId === idx ? {display: 'flex'}:{display: 'none'} }>
-                <StatusMsg action={'remove'} status={removeImgStatus}/>
+                <StatusMsg btnHandler={statusFailedBtnHandler} action={'remove'} status={removeImgStatus}/>
             </div>
             <div className={showChangeImg && changeImgId == idx ? `${styles.addNewImgContainer} ${styles.showContainer}` : styles.addNewImgContainer}>
                 <div className={showChangeImgStatus ? `${styles.displayStatus} ${styles.show}` : styles.displayStatus}

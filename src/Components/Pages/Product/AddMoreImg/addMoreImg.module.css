@@ -52,6 +52,11 @@
     font-size: 12px;
 }
 
+.submitBtn:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
 .statusContainer {
     position: absolute;
     top: 50%;
