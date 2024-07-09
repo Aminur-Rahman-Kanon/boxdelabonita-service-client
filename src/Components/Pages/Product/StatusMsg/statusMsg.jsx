@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './statusMsg.module.css';
 
-function StatusMsg({ action, status }) {
+function StatusMsg({ btnHandler, action, status }) {
 
     let removeImgStatusMsg;
     if (status === 'success'){
@@ -14,7 +14,7 @@ function StatusMsg({ action, status }) {
         removeImgStatusMsg  = <div className={styles.statusMsgContainer}>
             <h4 className={styles.productContainerH4}>Failed</h4>
             <h4 className={styles.productContainerH4}>Please try again</h4>
-            <button className={styles.actionPromptBtn}>Ok</button>
+            <button onClick={ btnHandler } className={styles.actionPromptBtn}>Ok</button>
         </div>
     }
 
