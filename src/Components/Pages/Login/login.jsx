@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import styles from './login.module.css';
 import cookies from '../../Others/Cookies/cookies';
 import Spinner from '../../Others/Spinner/spinner';
+import Modal from '../../Others/Modal/modal';
 
 function Login() {
     
@@ -9,6 +10,8 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [spinner, setSpinner] = useState(false);
+    const [status, setStatus] = useState('');
+    const [modal, setModal] = useState(false);
 
     const submitHandler = async (event) => {
         event.preventDefault();
@@ -21,7 +24,6 @@ function Login() {
             },
             body: JSON.stringify({ email, password })
         }).then(res => res.json()).then(data => {
-            console.log(data);
             if (data.status === 'success'){
                 cookies.set('token', data.data);
                 setSpinner(false);
@@ -29,15 +31,29 @@ function Login() {
             }
             else {
                 setSpinner(false);
-                console.log('failed');
+                setStatus(data.status);
+                setModal(true)
             }
         }).catch(err => console.log(err));
     }
 
     if (cookie !== undefined) return window.location.href = '/welcome';
 
+    const statusMsg = <div className={styles.statusMsg}>
+        <h2 className={styles.headerMedium}>{status}</h2>
+        <span className={styles.textBlackSmall}>Please try again</span>
+        <button className={styles.statusBtn}
+                onClick={() => {
+                    setStatus('');
+                    setModal(false);
+                }}>Ok</button>
+    </div>
+
     return (
         <>
+        <Modal modal={modal}>
+            {statusMsg}
+        </Modal>
         <Spinner spinner={spinner} />
         <section className={styles.loginContainerMain}>
             <div className={styles.loginContainer}>

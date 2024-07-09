@@ -16,9 +16,10 @@ const AddMoreImg = ({ product, idx, currentIdx }) => {
 
     const onFileSelect = (e) => {
         const file = e.target.files[0];
+        console.log(file);
         const reader = new FileReader();
         const imgTag = document.getElementById(`img${idx}`);
-        const newFile = new File([file], `image ${imgIdx}`, {
+        const newFile = new File([file], file.name, {
             lastModified: Date.now(),
             type: file.type
         })
@@ -40,7 +41,7 @@ const AddMoreImg = ({ product, idx, currentIdx }) => {
         formData.append('data', JSON.stringify({ title: product.title, category: product.category, imgIdx }));
         formData.append('photo', newImg);
 
-        await fetch('https://boxdelabonita-server.onrender.com/add-new-img', {
+        await fetch('http://localhost:8080/add-new-img', {
             method: 'POST',
             body: formData
         }).then(res => res.json()).then(data => {

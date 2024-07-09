@@ -50,6 +50,8 @@ function ProductContainer({ product }) {
     
     if (!product) return;
 
+    console.log(img);
+
     const removeImgHandler = async (e, idx) => {
         e.preventDefault();
         setRemoveBtnSpinner(true);

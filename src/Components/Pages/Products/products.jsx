@@ -35,8 +35,6 @@ function Products() {
         }).catch(err => console.log(err));
     }, []);
 
-    console.log(products);
-
     let displayProducts;
 
     if (Object.keys(products).length){
