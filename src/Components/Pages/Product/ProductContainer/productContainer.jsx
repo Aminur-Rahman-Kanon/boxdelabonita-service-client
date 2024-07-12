@@ -49,8 +49,6 @@ function ProductContainer({ product }) {
     
     if (!product) return;
 
-    console.log(img);
-
     const removeImgHandler = async (e, idx) => {
         e.preventDefault();
         setRemoveBtnSpinner(true);
@@ -90,7 +88,7 @@ function ProductContainer({ product }) {
             const formData = new FormData();
             formData.append('data', JSON.stringify({ category: product.category, title: product.title, index: imgIdx }))
             formData.append('photo', changeImg);
-            await fetch('https://boxdelabonita-server.onrender.com/change-photo', {
+            await fetch('https://boxdelabonita-server.onrender.com/change-img', {
                 method: 'POST',
                 
                 body: formData

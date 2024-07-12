@@ -27,6 +27,8 @@ function Products() {
         }
     });
 
+    console.log(products);
+
     useEffect(() => {
         fetch('https://boxdelabonita-server.onrender.com/fetch-products').then(res => res.json()).then(data => {
             if (data.data){
@@ -46,7 +48,7 @@ function Products() {
             }
         }).map(item => <Link to={`/products/${item.title}`} key={item.id} className={styles.product}>
             <div className={styles.productImgContainer}>
-                <img src={item.img[Object.keys(item.img)[0]]} alt="img" className={styles.productImg} />
+                {/* <img src={Object.values(item.img)[0]} alt="img" className={styles.productImg} /> */}
             </div>
             <div className={styles.productDetailsContainer}>
                 <p className={styles.productDetailsP}>Category: {item.category}</p>
