@@ -47,8 +47,6 @@ const AddMoreImg = ({ product, idx, currentIdx }) => {
         setNewImg(newFile);
     }
 
-    console.log(newImg);
-
     const submitHandler = async (e) => {
         e.preventDefault();
         setSpinner(true);

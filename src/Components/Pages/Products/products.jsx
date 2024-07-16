@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styles from './products.module.css';
 import cookies from '../../Others/Cookies/cookies';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 import Backdrop from '../../Others/Backdrop/backdrop';
+import AuthContext from '../../Others/AuthContext/authContext';
 
 function Products() {
 
     const params = useParams();
 
     // const cookie = cookies.get('token');
+
+    const context = useContext(AuthContext);
 
     const [products, setProducts] = useState([]);
 
@@ -27,15 +30,11 @@ function Products() {
         }
     });
 
-    console.log(products);
-
     useEffect(() => {
-        fetch('https://boxdelabonita-server.onrender.com/fetch-products').then(res => res.json()).then(data => {
-            if (data.data){
-                setProducts(data.data);
-            }
-        }).catch(err => console.log(err));
-    }, []);
+        if (context.products){
+            setProducts(context.products);
+        }
+    }, [context]);
 
     let displayProducts;
 
@@ -48,7 +47,7 @@ function Products() {
             }
         }).map(item => <Link to={`/products/${item.title}`} key={item.id} className={styles.product}>
             <div className={styles.productImgContainer}>
-                {/* <img src={Object.values(item.img)[0]} alt="img" className={styles.productImg} /> */}
+                <img src={Object.values(item.img)[0]} alt="img" className={styles.productImg} />
             </div>
             <div className={styles.productDetailsContainer}>
                 <p className={styles.productDetailsP}>Category: {item.category}</p>

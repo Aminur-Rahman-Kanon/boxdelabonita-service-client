@@ -42,11 +42,7 @@ function ProductContainer({ product }) {
     const [moreImgs, setMoreImgs] = useState(0);
     const [newColor, setNewColor] = useState([]);
 
-    useEffect(() => {
-        const imgs = JSON.parse(JSON.stringify(product.img));
-        setImg(imgs);
-    }, []);
-    
+    // console.log(img);
     if (!product) return;
 
     const removeImgHandler = async (e, idx) => {
@@ -81,14 +77,14 @@ function ProductContainer({ product }) {
         })
     }
 
-    const changeImgHandler = async (e, imgIdx) => {
+    const changeImgHandler = async (e, imgId) => {
         e.preventDefault();
         setChangeImgSpinner(true);
         try {
             const formData = new FormData();
-            formData.append('data', JSON.stringify({ category: product.category, title: product.title, index: imgIdx }))
+            formData.append('data', JSON.stringify({ category: product.category, title: product.title, imgId }))
             formData.append('photo', changeImg);
-            await fetch('https://boxdelabonita-server.onrender.com/change-img', {
+            await fetch('http://localhost:8080/change-img', {
                 method: 'POST',
                 
                 body: formData
@@ -175,10 +171,10 @@ function ProductContainer({ product }) {
 
     let displayImg;
 
-    if (Object.keys(img).length){
-        displayImg = Object.keys(img).map((item, idx) => <div key={idx} className={styles.imgs}>
+    if (Object.keys(product.img).length){
+        displayImg = Object.keys(product.img).map((item, idx) => <div key={idx} className={styles.imgs}>
             <div className={styles.imgContainer}>
-                <img id={String(idx)} src={img[item]} alt="img" className={styles.img}/>
+                <img id={String(idx)} src={product.img[item]} alt="img" className={styles.img}/>
             </div>
             <div className={styles.imgOptionContainer}>
                 <button className={styles.changeBtn} onClick={() => {
@@ -214,7 +210,7 @@ function ProductContainer({ product }) {
                 <form encType='multipart/form-data' className={styles.newImgDetailsContainer}>
                     <input type='file' accept='image/png, image/jpeg' className={styles.newImgFileInput} onChange={(e) => onFileSelect(e, idx, item)}/>
                     <button className={styles.addImgBtn}
-                            onClick={(e) => changeImgHandler(e, idx)}
+                            onClick={(e) =>changeImgHandler(e, item)}
                             disabled={!changeImg}>
                             {
                                 changeImgSpinner ? <FontAwesomeIcon icon={faSpinner} spinPulse className={styles.spinner}/> : 'Change Photo'
