@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import UploadProducts from './Components/Pages/UploadProducts/uploadProducts';
 import { Routes, Route } from 'react-router-dom';
@@ -15,12 +15,22 @@ import Product from './Components/Pages/Product/product';
 import OrderStatus from './Components/Pages/OrderStatus/orderStatus';
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AuthContext from './Components/Others/AuthContext/authContext';
 
 function App() {
 
   const cookie = cookies.get('token');
   const [sidedrawer, setSidedrawer] = useState(false);
   const [backdrop, setBackdrop] = useState(false);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/fetch-products').then(res => res.json()).then(result => {
+      if (result.status === 'success'){
+        setProducts(result.data);
+      }
+    })
+  }, []);
 
   useEffect(() => {
     if (backdrop){
@@ -38,6 +48,7 @@ function App() {
   
   return (
     <div className="App">
+      <AuthContext.Provider value={{products}}>
         {cookie !== undefined ? <Topbar toggleSidedrawer={toggleSidedrawer}/> : null}
         <ToastContainer autoClose={1800} hideProgressBar={true} pauseOnHover theme='colored' style={{fontSize: '13px'}} transition={Slide}/>
         <Sidedrawer sidedrawer={sidedrawer} />
@@ -51,6 +62,7 @@ function App() {
           <Route path='/products/:product' element={<Product />} />
           <Route path='*' element={<DefaultRoute />} />
         </Routes>
+      </AuthContext.Provider>
     </div>
   );
 }

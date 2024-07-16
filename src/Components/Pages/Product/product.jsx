@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './product.module.css';
 import { useParams } from 'react-router-dom';
 import ProductContainer from './ProductContainer/productContainer';
+import AuthContext from '../../Others/AuthContext/authContext';
 
 function Product() {
     const params = useParams();
+    
+    const context = useContext(AuthContext);
 
     const [product, setProduct] = useState({});
 
     const [error, setError] = useState(false);
-    
+
     useEffect(() => {
         if (params.product){
             fetch('https://boxdelabonita-server.onrender.com/fetch-product', {
@@ -27,6 +30,7 @@ function Product() {
         }
     }, [])
 
+
     const defaultDisplay = <div className={styles.defaultContainer}>
         <h4>No item</h4>
     </div>
@@ -38,4 +42,4 @@ function Product() {
     )
 }
 
-export default Product
+export default Product;

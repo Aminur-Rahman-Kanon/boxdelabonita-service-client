@@ -42,7 +42,10 @@ function ProductContainer({ product }) {
     const [moreImgs, setMoreImgs] = useState(0);
     const [newColor, setNewColor] = useState([]);
 
+    console.log(product);
+
     useEffect(() => {
+        console.log(product.img);
         const imgs = JSON.parse(JSON.stringify(product.img));
         setImg(imgs);
     }, []);

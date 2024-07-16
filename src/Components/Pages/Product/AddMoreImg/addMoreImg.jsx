@@ -23,12 +23,10 @@ const AddMoreImg = ({ product, idx, currentIdx }) => {
         const file = e.target.files[0];
         let fileExt = file.name.split('.').at(-1);
         let fileType = file.type;
-        console.log(fileExt);
         if (fileExt !== 'jpg' || fileExt !== 'jpeg'){
             fileExt = 'jpg';
             fileType = 'image/jpeg';
         }
-        console.log(fileExt)
         const randomNumber = randomHexNumber();
         const reader = new FileReader();
         const imgTag = document.getElementById(`img${idx}`);
@@ -37,7 +35,6 @@ const AddMoreImg = ({ product, idx, currentIdx }) => {
             type: fileType
         })
         imgTag.title = file.name;
-        console.log(newFile);
 
         reader.onload = (event) => {
             imgTag.src = event.target.result;
@@ -46,8 +43,6 @@ const AddMoreImg = ({ product, idx, currentIdx }) => {
         reader.readAsDataURL(file);
         setNewImg(newFile);
     }
-
-    console.log(newImg);
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -61,7 +56,6 @@ const AddMoreImg = ({ product, idx, currentIdx }) => {
             method: 'POST',
             body: formData
         }).then(res => res.json()).then(data => {
-            console.log(data);
             setSpinner(false);
             setStatus(data.status);
             setShowStatus(true);
