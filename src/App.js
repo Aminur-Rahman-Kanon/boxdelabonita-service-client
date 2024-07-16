@@ -29,8 +29,8 @@ function App() {
       if (result.status === 'success'){
         setProducts(result.data);
       }
-    })
-  }, []);
+    }).catch(err => console.log(err))
+  }, [])
 
   useEffect(() => {
     if (backdrop){
@@ -48,7 +48,7 @@ function App() {
   
   return (
     <div className="App">
-      <AuthContext.Provider value={{products}}>
+      <AuthContext.Provider value={{ products }}>
         {cookie !== undefined ? <Topbar toggleSidedrawer={toggleSidedrawer}/> : null}
         <ToastContainer autoClose={1800} hideProgressBar={true} pauseOnHover theme='colored' style={{fontSize: '13px'}} transition={Slide}/>
         <Sidedrawer sidedrawer={sidedrawer} />

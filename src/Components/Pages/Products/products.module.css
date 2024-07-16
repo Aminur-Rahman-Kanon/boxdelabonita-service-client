@@ -1,23 +1,10 @@
 .productsContainer {
-    width: 95%;
-    margin: 10px;
-    box-sizing: border-box;
-    border: 1px solid lightgray;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-.categoryContainer {
-    width: 20%;
-    min-width: 180px;
-    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
     box-sizing: border-box;
     display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    background-color: white;
+    justify-content: center;
+    align-items: center;
 }
 
 .category {
@@ -36,12 +23,12 @@
 }
 
 .productDisplayContainer {
-    width: 80%;
+    width: 100%;
     min-width: 600px;
     padding: 10px;
     box-sizing: border-box;
     display: grid;
-    border-left: 1px solid lightgray;
+    gap: 10px;
     grid-template-columns: repeat(4, 1fr);
     justify-content: flex-start;
     align-items: flex-start;
@@ -50,7 +37,6 @@
 .product {
     text-decoration: none;
     width: 100%;
-    margin-bottom: 10px;
     cursor: pointer;
 }
 

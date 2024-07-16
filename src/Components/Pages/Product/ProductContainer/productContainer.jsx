@@ -13,7 +13,6 @@ function ProductContainer({ product }) {
 
     const navigate = useNavigate();
 
-    const [img, setImg] = useState({});
     const [productCategory, setProductCategory] = useState(product.category);
     const [productSubCategory, setProductSubCategory] = useState(product.subcategory);
     const [stock, setStock] = useState(product.stock);
@@ -42,28 +41,19 @@ function ProductContainer({ product }) {
     const [moreImgs, setMoreImgs] = useState(0);
     const [newColor, setNewColor] = useState([]);
 
-    console.log(product);
-
-    useEffect(() => {
-        console.log(product.img);
-        const imgs = JSON.parse(JSON.stringify(product.img));
-        setImg(imgs);
-    }, []);
-    
     if (!product) return;
 
-    const removeImgHandler = async (e, idx) => {
+    const removeImgHandler = async (e, item) => {
         e.preventDefault();
         setRemoveBtnSpinner(true);
 
-        await fetch('http://localhost:8080/remove-img',{
+        await fetch('https://boxdelabonita-server.onrender.com/remove-img',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ category: product.category, title: product.title, imgIdx: idx })
+            body: JSON.stringify({ category: product.category, title: product.title, imgId: item })
         }).then(res => res.json()).then(result => {
-            console.log(result);
             if (result.status === 'success'){
                 setRemoveBtnSpinner(false);
                 setRemoveImgStatus('success');
@@ -84,21 +74,28 @@ function ProductContainer({ product }) {
         })
     }
 
-    const changeImgHandler = async (e, imgIdx) => {
+    const changeImgHandler = async (e, imgId) => {
         e.preventDefault();
         setChangeImgSpinner(true);
         try {
             const formData = new FormData();
-            formData.append('data', JSON.stringify({ category: product.category, title: product.title, index: imgIdx }))
+            formData.append('data', JSON.stringify({ category: product.category, title: product.title, imgId }))
             formData.append('photo', changeImg);
             await fetch('https://boxdelabonita-server.onrender.com/change-img', {
                 method: 'POST',
                 
                 body: formData
             }).then(res => res.json()).then(data => {
-                setChangeImgSpinner(false);
-                setChangeImgStatus('success');
-                setShowChangeImgStatus(true);
+                if (data.status === 'success'){
+                    setChangeImgSpinner(false);
+                    setChangeImgStatus('success');
+                    setShowChangeImgStatus(true);
+                }
+                else {
+                    setChangeImgSpinner(false);
+                    setChangeImgStatus('failed');
+                    setShowChangeImgStatus(true);
+                }
             }).catch(err => {
                 setChangeImgSpinner(false);
                 setChangeImgStatus('failed');
@@ -178,10 +175,10 @@ function ProductContainer({ product }) {
 
     let displayImg;
 
-    if (Object.keys(img).length){
-        displayImg = Object.keys(img).map((item, idx) => <div key={idx} className={styles.imgs}>
+    if (Object.keys(product.img || {}).length){
+        displayImg = Object.keys(product.img).map((item, idx) => <div key={idx} className={styles.imgs}>
             <div className={styles.imgContainer}>
-                <img id={String(idx)} src={img[item]} alt="img" className={styles.img}/>
+                <img id={String(idx)} src={product.img[item]} alt="img" className={styles.img}/>
             </div>
             <div className={styles.imgOptionContainer}>
                 <button className={styles.changeBtn} onClick={() => {
@@ -197,7 +194,7 @@ function ProductContainer({ product }) {
             <div className={styles.actionPromptContainer} style={showRemovePrompt && removeId === idx ? {display: 'flex'} : {display: 'none'}}>
                 <h4 className={styles.productContainerH4}>Are you sure</h4>
                 <div className={styles.actionPromptBtnContainer}>
-                    <button className={styles.actionPromptBtn} onClick={(e) => removeImgHandler(e, idx)}>{
+                    <button className={styles.actionPromptBtn} onClick={(e) => removeImgHandler(e, item)}>{
                         removeBtnSpinner ? <FontAwesomeIcon icon={faSpinner} spinPulse/> : 'Yes'
                     }</button>
                     <button className={styles.actionPromptBtn} onClick={(e) => {
@@ -210,17 +207,19 @@ function ProductContainer({ product }) {
                 <StatusMsg btnHandler={statusFailedBtnHandler} action={'remove'} status={removeImgStatus}/>
             </div>
             <div className={showChangeImg && changeImgId == idx ? `${styles.addNewImgContainer} ${styles.showContainer}` : styles.addNewImgContainer}>
-                <div className={showChangeImgStatus ? `${styles.displayStatus} ${styles.show}` : styles.displayStatus}
-                    style={changeImgStatus === 'success' ? {backgroundColor: 'green'} : {backgroundColor: '#bb0202'}}>
-                    <StatusMsg action={'change'} status={changeImgStatus}/>
+                <div className={showChangeImgStatus ? `${styles.displayStatus} ${styles.show}` : styles.displayStatus}>
+                    <StatusMsg action={'change'} status={changeImgStatus} btnHandler={() => {
+                        setChangeImgStatus('');
+                        setShowChangeImgStatus(false);
+                    }}/>
                 </div>
                 <form encType='multipart/form-data' className={styles.newImgDetailsContainer}>
                     <input type='file' accept='image/png, image/jpeg' className={styles.newImgFileInput} onChange={(e) => onFileSelect(e, idx, item)}/>
                     <button className={styles.addImgBtn}
-                            onClick={(e) => changeImgHandler(e, idx)}
+                            onClick={(e) =>changeImgHandler(e, item)}
                             disabled={!changeImg}>
                             {
-                                changeImgSpinner ? <FontAwesomeIcon icon={faSpinner} spinPulse className={styles.spinner}/> : 'Change Photo'
+                                changeImgSpinner ? <FontAwesomeIcon icon={faSpinner} spinPulse className={styles.spinner}/> : 'Change Image'
                             }
                     </button>
                 </form>
@@ -242,11 +241,9 @@ function ProductContainer({ product }) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            
-            body: JSON.stringify({ title: product.title, category: product.category, img: product.img })
+            body: JSON.stringify({ title: product.title, category: product.category })
         }).then(res => res.json())
         .then(data => {
-            console.log(data);
             if (data.status === 'success'){
                 setSpinner(false);
                 setRemoveProductMsg(true);
@@ -273,7 +270,7 @@ function ProductContainer({ product }) {
         document.getElementById('new-color').value = '';
     }
 
-    const displayAddMoreImgs = Array.from(Array(moreImgs)).map((item, idx) => <AddMoreImg key={idx} product={product} idx={idx} currentIdx={img.length}/>)
+    const displayAddMoreImgs = Array.from(Array(moreImgs)).map((item, idx) => <AddMoreImg key={idx} product={product} idx={idx} />)
 
     return (
         <>

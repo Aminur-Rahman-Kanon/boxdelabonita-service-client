@@ -4,9 +4,8 @@ import addPhoto from '../../../../Assets/addPhoto.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-const AddMoreImg = ({ product, idx, currentIdx }) => {
+const AddMoreImg = ({ product, idx }) => {
 
-    // const [color, setColor] = useState('');
     const [newImg, setNewImg] = useState(null);
     const [spinner, setSpinner] = useState(false);
     const [status, setStatus] = useState('');
@@ -52,7 +51,7 @@ const AddMoreImg = ({ product, idx, currentIdx }) => {
         formData.append('data', JSON.stringify({ title: product.title, category: product.category }));
         formData.append('photo', newImg);
 
-        await fetch('http://localhost:8080/add-new-img', {
+        await fetch('https://boxdelabonita-server.onrender.com/add-new-img', {
             method: 'POST',
             body: formData
         }).then(res => res.json()).then(data => {
@@ -73,8 +72,7 @@ const AddMoreImg = ({ product, idx, currentIdx }) => {
             <h4 className={styles.heading4}>Upload Successfull</h4>
             <button className={styles.btn} onClick={(e) => {
                 e.preventDefault();
-                setShowStatus(false);
-                setSpinner(false);
+                window.location.reload();
             }}>Ok</button>
         </div>
     }
