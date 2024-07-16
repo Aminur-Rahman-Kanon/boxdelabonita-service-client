@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './products.module.css';
 import cookies from '../../Others/Cookies/cookies';
 import Backdrop from '../../Others/Backdrop/backdrop';
 import AuthContext from '../../Others/AuthContext/authContext';
 
 function Products() {
-
-    const params = useParams();
 
     // const cookie = cookies.get('token');
 
@@ -20,8 +18,9 @@ function Products() {
     const [backdrop, setBackdrop] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:8080/fetch-products').then(res => res.json()).then(result => {
+        fetch('https://boxdelabonita-server.onrender.com/fetch-products').then(res => res.json()).then(result => {
             if (result.status === 'success'){
+                console.log(result);
                 setProducts(result.data);
             }
             else {
@@ -32,10 +31,10 @@ function Products() {
 
     let displayProducts;
 
-    if (Object.keys(products).length){
+    if (products.length){
         displayProducts = products.map(item => <Link to={`/products/${item.title}`} key={item.id} className={styles.product}>
             <div className={styles.productImgContainer}>
-                <img src={Object.values(item.img)[0]} alt="img" className={styles.productImg} />
+                <img src={Object.values(item.img || [])[0]} alt="img" className={styles.productImg} />
             </div>
             <div className={styles.productDetailsContainer}>
                 <p className={styles.productDetailsP}>Category: {item.category}</p>

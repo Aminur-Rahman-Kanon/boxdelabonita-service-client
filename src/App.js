@@ -25,7 +25,7 @@ function App() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8080/fetch-products').then(res => res.json()).then(result => {
+    fetch('https://boxdelabonita-server.onrender.com/fetch-products').then(res => res.json()).then(result => {
       if (result.status === 'success'){
         setProducts(result.data);
       }
@@ -58,7 +58,7 @@ function App() {
           <Route path='/welcome' element={<Homepage /> } />
           <Route path='/orders' element={<OrderStatus />} />
           <Route path='/upload-products' element={<UploadProducts />} />
-          <Route path='/product/:productId' element={<Products />} />
+          <Route path='/products' element={<Products />} />
           <Route path='/products/:product' element={<Product />} />
           <Route path='*' element={<DefaultRoute />} />
         </Routes>

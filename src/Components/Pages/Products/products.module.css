@@ -48,6 +48,13 @@
     width: 100%;
 }
 
+.defaultproductDisplay {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .productDetailsContainer {
     width: 100%;
     display: flex;
