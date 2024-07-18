@@ -194,9 +194,9 @@ function UploadProducts() {
                         Add Photo
                     </button>
                 </div>
-                <button onClick={submitHandler}
+                {/* <button onClick={submitHandler}
                         disabled={!category || !title || !price || !description}
-                        className={styles.submitBtn}>Submit</button>
+                        className={styles.submitBtn}>Submit</button> */}
             </form>
         </div>
         </>
