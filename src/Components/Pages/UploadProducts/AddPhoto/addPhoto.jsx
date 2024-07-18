@@ -21,45 +21,42 @@ const AddPhoto = ({ idx, product, updateImgCount }) => {
         setSubmitBtnSpinner(true);
 
         let fileExt = img.name.split('.').at(-1);
-        if (fileExt === 'jpg' || fileExt === 'jpeg' || fileExt === 'png'){
-            const randomHex = randomHexNumber();
-            const imgId = `image_${randomHex}.${fileExt}`
-            const newFile = new File([img], imgId, {
-                dateModified: Date.now(),
-                type: img.type
-            });
-    
-            setImgId(imgId);
-    
-            const formData = new FormData();
-    
-            formData.append('data', JSON.stringify(product));
-            formData.append('photo', newFile);
-    
-            //upload to server
-            await fetch('https://boxdelabonita-server.onrender.com/upload-new-img', {
-                method: 'POST',
-                body: formData
-            }).then(res => res.json()).then(result => {
-                setSubmitBtnSpinner(false);
-                if (result.status === 'success'){
-                    setStatus('success');
-                    setSuccessSubmit(true);
-                }
-                else {
-                    setStatus('failed');
-                    setSuccessSubmit(true);
-                }
-            }).catch(err => {
-                setSubmitBtnSpinner(false);
+        if (fileExt !== 'jpg' || fileExt !== 'jpeg'){
+            fileExt = 'jpg';
+        }
+        const randomHex = randomHexNumber();
+        const imgId = `image_${randomHex}.${fileExt}`
+        const newFile = new File([img], imgId, {
+            dateModified: Date.now(),
+            type: img.type
+        });
+
+        setImgId(imgId);
+
+        const formData = new FormData();
+
+        formData.append('data', JSON.stringify(product));
+        formData.append('photo', newFile);
+
+        //upload to server
+        await fetch('https://boxdelabonita-server.onrender.com/upload-new-img', {
+            method: 'POST',
+            body: formData
+        }).then(res => res.json()).then(result => {
+            setSubmitBtnSpinner(false);
+            if (result.status === 'success'){
+                setStatus('success');
+                setSuccessSubmit(true);
+            }
+            else {
                 setStatus('failed');
                 setSuccessSubmit(true);
-            });
-        }
-        else {
+            }
+        }).catch(err => {
             setSubmitBtnSpinner(false);
-            return toast.error('Please select a jpg, jpeg or png file')
-        }
+            setStatus('failed');
+            setSuccessSubmit(true);
+        });
     }
 
     const removeImgHandler = async (e) => {
