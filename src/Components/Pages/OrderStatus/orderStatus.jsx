@@ -120,7 +120,7 @@ const OrderStatus = () => {
                     {
                         Object.values(item.products).map(prd => <div key={prd._id} className={styles.product}>
                             <div className={styles.imgContainer}>
-                                <img src={prd.product.img[0]} alt="product" className={styles.productImg} />
+                                <img src={Object.values(prd.product.img)[0]} alt="product" className={styles.productImg} />
                             </div>
                             <div className={styles.productDetailsContainer}>
                                 <div className={styles.colorContainer}>
