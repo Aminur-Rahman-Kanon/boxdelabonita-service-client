@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './orderStatus.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faList, faStar, faGear, faTruck, faRotateLeft, faX } from '@fortawesome/free-solid-svg-icons';
+import { faList, faStar, faGear, faTruck, faRotateLeft, faX, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import ChangeStatusBtn from './ChangeStatusBtn/changeStatusBtn';
+import { toast } from 'react-toastify';
 
 const status = ['pending', 'processing', 'delivered', 'returned', 'canceled'];
 
@@ -17,6 +18,8 @@ const OrderStatus = () => {
     const [newItems, setNewItems] = useState(0);
 
     const [count, setCount] = useState(0);
+
+    const [deleteBtnSpinner, setDeleteBtnSpinner] = useState(false);
 
     useEffect(() => {
         fetch('https://boxdelabonita-server.onrender.com/fetch-placed-orders')
@@ -50,6 +53,32 @@ const OrderStatus = () => {
         })
     }, [count])
 
+    const deleteOrderHandler = async (e, id) => {
+        e.preventDefault();
+
+        await fetch('https://boxdelabonita-server.onrender.com/delete-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        }).then(res => res.json()).then(result => {
+            setDeleteBtnSpinner(false);
+            if (result.status === 'success'){
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1200);
+                return toast.success(`order ${id} removed`)
+            }
+            else {
+                return toast.error(`order ${id} failed to remove`)
+            }
+        }).catch(err => {
+            setDeleteBtnSpinner(false);
+            return toast.error('Something went wrong!');
+        })
+    }
+
 
     const displayOrderStatus = orders.length ? orders.filter(prd => {
         if (orderStatus === 'all orders'){
@@ -59,7 +88,7 @@ const OrderStatus = () => {
             return prd.orderInfo.orderStatus === orderStatus;
         }
     }).map((item, idx) => {
-        return <div key={item.orderInfo._id} className={styles.orderContainer}>
+        return <div key={item._id} className={styles.orderContainer}>
             <div className={styles.infoContainer}>
                 <span className={styles.customerInfo} style={{fontWeight: 'bold', fontSize: '14px'}}>{idx+1}</span>
                 <div className={styles.orderElement}>
@@ -111,6 +140,13 @@ const OrderStatus = () => {
             </div>
             <div className={styles.actionContainer}>
                 {status.map((btn, idx) => <ChangeStatusBtn key={idx} id={item._id} toggleCount={setCount} changeStatus={btn} currentStatus={item.orderInfo.orderStatus} setChangeOrderStatus={setChangeOrderStatus}/>)}
+            </div>
+            <div className={styles.deleteBtnContainer}>
+                <button className={styles.deleteBtn} onClick={(e) => deleteOrderHandler(e, item._id)}>
+                    {deleteBtnSpinner ? <FontAwesomeIcon icon={faSpinner} spinPulse color='white' />
+                    :
+                    'Delete Order'}
+                </button>
             </div>
         </div>
     })

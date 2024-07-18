@@ -46,14 +46,14 @@
 .imgGroup {
     width: 100%;
     padding: 0;
-    padding: 5px;
+    /* padding: 5px; */
     margin: 5px 0;
+    margin-bottom: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid lightgrey;
 }
 
 .select {
@@ -113,7 +113,7 @@
 
 .submitBtn:disabled {
     opacity: 0.6;
-    cursor: default;
+    cursor: not-allowed;
 }
 
 .submitBtn:disabled:hover {
@@ -133,6 +133,11 @@
     justify-content: center;
     align-items: center;
     font-size: 13px;
+}
+
+.addPhotoBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 @media (max-width: 550px) {

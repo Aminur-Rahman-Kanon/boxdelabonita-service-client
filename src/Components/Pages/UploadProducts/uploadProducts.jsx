@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './uploadProducts.module.css';
-import { category, subCategory } from '../../Others/Data/data';
+import { category } from '../../Others/Data/data';
 import cookies from '../../Others/Cookies/cookies';
 import Spinner from '../../Others/Spinner/spinner';
 import MessageContainer from '../../Others/MessageContainer/messageContainer';
@@ -10,21 +10,19 @@ import { disableScroll } from '../../Others/Utility/utility';
 import AddPhoto from './AddPhoto/addPhoto';
 
 const selectCategory = category.map(item => <option key={item} value={item} className={styles.options}>{item}</option>);
-const selectSubCategory = subCategory.map(item => <option key={item} value={item} className={styles.options}>{item}</option>);
 
 function UploadProducts() {
 
     const cookie = cookies.get('token');
 
     const [productCategory, setProductCategory] = useState('');
-    const [productSubCategory, setProductSubCategory] = useState('');
     const [stock, setStock] = useState(0);
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState(0);
     const [rating, setRating] = useState(0);
     const [discountedPrice, setDiscountedPrice] = useState(0);
-    const [imgs, setImgs] = useState([]);
     const [imgCount, setImgCount] = useState(0);
+    const [addImgBtnDisable, setAddImgBtnDisable] = useState(true);
     const [colors, setColors] = useState([])
     const [description, setDescription] = useState('');
     const [landingDescription, setLandingDescription] = useState('');
@@ -33,6 +31,7 @@ function UploadProducts() {
     const [displayMsg, setDisplayMsg] = useState(false);
     const [modal, setModal] = useState(false);
     const [backdrop, setBackdrop] = useState(false);
+
 
     // useEffect(() => {
     //     if (cookie !== undefined){
@@ -60,6 +59,17 @@ function UploadProducts() {
         }
     }, [backdrop])
 
+    useEffect(() => {
+        if (category && title){
+            setAddImgBtnDisable(false);
+        }
+        else {
+            setAddImgBtnDisable(true);
+        }
+    }, [category, title])
+
+    const productDetails = {category: productCategory, stock, title, price: { originalPrice: price, discountedPrice }, description, landingDescription, rating, colors}
+
     const submitHandler = async (e) => {
         e.preventDefault();
         setSpinner(true);
@@ -71,10 +81,9 @@ function UploadProducts() {
         }
         
         formData.append('data', JSON.stringify({ 
-            productCategory, productSubCategory, stock, title, productPrice, description, landingDescription, rating, colors
+            productCategory, stock, title, productPrice, description, landingDescription, rating, colors
          }));
 
-        imgs.forEach(img => formData.append('photo', img));
 
         await fetch('https://boxdelabonita-server.onrender.com/upload-products', {
             method: 'POST',
@@ -118,13 +127,6 @@ function UploadProducts() {
                         <select defaultValue="Select a category" className={styles.select} onChange={(e) => setProductCategory(e.target.value.toLowerCase())}>
                             <option disabled>Select a category</option>
                             {selectCategory}
-                        </select>
-                    </fieldset>
-                    <fieldset className={styles.fieldset}>
-                        <label className={styles.label}>Sub-category</label>
-                        <select defaultValue="Select a Sub-category" className={styles.select} onChange={(e) => setProductSubCategory(e.target.value.toLowerCase())}>
-                            <option disabled>Select a Sub-category</option>
-                            {selectSubCategory}
                         </select>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
@@ -178,15 +180,22 @@ function UploadProducts() {
                         <label className={styles.label}>Colors</label>
                         <input type="text" className={styles.input} placeholder='Colors' onChange={(e) => setColors(e.target.value.toLowerCase().split(','))}/>
                     </fieldset>
-                    <div className={styles.imgGroup}>
+                    <div className={styles.imgGroup} style={imgCount ? {display: 'flex'} : {display: 'none'}}>
                         {
-                            Array.from(Array(imgCount)).map((img, idx) => <AddPhoto key={idx} idx={idx} image={imgs} addImage={setImgs}/>)
+                            Array.from(Array(imgCount)).map((img, idx) => <AddPhoto key={idx} idx={idx} product={productDetails} updateImgCount={setImgCount} />)
                         }
                     </div>
-                    <div className={styles.addPhotoBtn} onClick={() => setImgCount(imgCount => imgCount+1)}>Add Photo</div>
+                    <button className={styles.addPhotoBtn}
+                            disabled={addImgBtnDisable}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setImgCount(imgCount => imgCount+1)
+                            }}>
+                        Add Photo
+                    </button>
                 </div>
                 <button onClick={submitHandler}
-                        disabled={!category || !subCategory || !title || !price || !description || !imgs.length}
+                        disabled={!category || !title || !price || !description}
                         className={styles.submitBtn}>Submit</button>
             </form>
         </div>

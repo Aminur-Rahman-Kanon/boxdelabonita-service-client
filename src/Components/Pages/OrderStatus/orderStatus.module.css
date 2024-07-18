@@ -167,6 +167,23 @@
     align-items: center;
 }
 
+.deleteBtnContainer {
+    width: 100%;
+    margin: 15px auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.deleteBtn {
+    width: 200px;
+    height: 40px;
+    border: 2px solid red;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+}
+
 @media (max-width: 767px) {
     .sidebar {
         width: 150px;

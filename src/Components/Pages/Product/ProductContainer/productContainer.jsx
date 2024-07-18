@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './productContainer.module.css';
-import { category, subCategory } from '../../../Others/Data/data';
+import { category } from '../../../Others/Data/data';
 import Spinner from '../../../Others/Spinner/spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +14,6 @@ function ProductContainer({ product }) {
     const navigate = useNavigate();
 
     const [productCategory, setProductCategory] = useState(product.category);
-    const [productSubCategory, setProductSubCategory] = useState(product.subcategory);
     const [stock, setStock] = useState(product.stock);
     const [title, setTitle] = useState(product.title);
     const [originalPrice, setOriginalPrice] = useState(product.price.originalPrice);
@@ -135,7 +134,6 @@ function ProductContainer({ product }) {
             description: description ? description.trim() : description,
             landingDescription: landingDescription ? landingDescription.trim() : landingDescription,
             productCategory,
-            productSubCategory,
             stock,
             price: {
                 originalPrice: originalPrice,
@@ -294,16 +292,6 @@ function ProductContainer({ product }) {
                                 onChange={(e) => setProductCategory(e.target.value.toLowerCase())}>
                             {
                                 category.map(cat => <option key={cat} value={cat} className={styles.option}>{cat}</option>)
-                            }                    
-                        </select>
-                    </fieldset>
-                    <fieldset className={styles.fieldset}>
-                        <label className={styles.label}>Sub-category</label>
-                        <select className={styles.select}
-                                value={productSubCategory}
-                                onChange={(e) => setProductSubCategory(e.target.value.toLowerCase())}>
-                            {
-                                subCategory.map(cat => <option key={cat} className={styles.option}>{cat}</option>)
                             }                    
                         </select>
                     </fieldset>

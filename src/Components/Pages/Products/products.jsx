@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './products.module.css';
-import cookies from '../../Others/Cookies/cookies';
+// import cookies from '../../Others/Cookies/cookies';
 import Backdrop from '../../Others/Backdrop/backdrop';
-import AuthContext from '../../Others/AuthContext/authContext';
 
 function Products() {
 
     // const cookie = cookies.get('token');
-
-    const context = useContext(AuthContext);
 
     const [products, setProducts] = useState([]);
 
@@ -20,7 +17,6 @@ function Products() {
     useEffect(() => {
         fetch('https://boxdelabonita-server.onrender.com/fetch-products').then(res => res.json()).then(result => {
             if (result.status === 'success'){
-                console.log(result);
                 setProducts(result.data);
             }
             else {
