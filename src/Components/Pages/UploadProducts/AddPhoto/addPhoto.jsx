@@ -39,7 +39,7 @@ const AddPhoto = ({ idx, product, updateImgCount }) => {
         formData.append('photo', newFile);
 
         //upload to server
-        await fetch('https://boxdelabonita-server.onrender.com/upload-new-img', {
+        await fetch('https://boxdelabonita.com/api/upload-new-img', {
             method: 'POST',
             body: formData
         }).then(res => res.json()).then(result => {
@@ -64,7 +64,7 @@ const AddPhoto = ({ idx, product, updateImgCount }) => {
         // setRemoveBtnSpinner(true);
 
         //submiting to the server
-        await fetch('https://boxdelabonita-server.onrender.com/remove-img',{
+        await fetch('https://boxdelabonita.com/api/remove-img',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

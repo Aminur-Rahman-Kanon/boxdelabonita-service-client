@@ -46,7 +46,7 @@ function ProductContainer({ product }) {
         e.preventDefault();
         setRemoveBtnSpinner(true);
 
-        await fetch('https://boxdelabonita-server.onrender.com/remove-img',{
+        await fetch('https://boxdelabonita.com/api/remove-img',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ function ProductContainer({ product }) {
             const formData = new FormData();
             formData.append('data', JSON.stringify({ category: product.category, title: product.title, imgId }))
             formData.append('photo', changeImg);
-            await fetch('https://boxdelabonita-server.onrender.com/change-img', {
+            await fetch('https://boxdelabonita.com/api/change-img', {
                 method: 'POST',
                 
                 body: formData
@@ -141,7 +141,7 @@ function ProductContainer({ product }) {
             },
             colors
         }
-        await fetch('https://boxdelabonita-server.onrender.com/update-product-details', {
+        await fetch('https://boxdelabonita.com/api/update-product-details', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -234,7 +234,7 @@ function ProductContainer({ product }) {
         e.preventDefault();
         setSpinner(true);
 
-        await fetch('https://boxdelabonita-server.onrender.com/remove-product', {
+        await fetch('https://boxdelabonita.com/api/remove-product', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -22,7 +22,7 @@ const OrderStatus = () => {
     const [deleteBtnSpinner, setDeleteBtnSpinner] = useState(false);
 
     useEffect(() => {
-        fetch('https://boxdelabonita-server.onrender.com/fetch-placed-orders')
+        fetch('https://boxdelabonita.com/api/fetch-placed-orders')
         .then(res => res.json())
         .then(data => {
             if (data.data){
@@ -35,7 +35,7 @@ const OrderStatus = () => {
     }, [ changeOrderStatus ]);
 
     useEffect(() => {
-        fetch('https://boxdelabonita-server.onrender.com/fetch-placed-orders')
+        fetch('https://boxdelabonita.com/api/fetch-placed-orders')
         .then(res => res.json())
         .then(data => {
             if (data.data){
@@ -56,7 +56,7 @@ const OrderStatus = () => {
     const deleteOrderHandler = async (e, id) => {
         e.preventDefault();
 
-        await fetch('https://boxdelabonita-server.onrender.com/delete-order', {
+        await fetch('https://boxdelabonita.com/api/delete-order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

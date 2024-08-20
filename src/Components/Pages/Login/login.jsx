@@ -17,7 +17,7 @@ function Login() {
         event.preventDefault();
         setSpinner(true);
     
-        await fetch('https://boxdelabonita-server.onrender.com/admin-login', {
+        await fetch('https://boxdelabonita.com/api/admin-login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

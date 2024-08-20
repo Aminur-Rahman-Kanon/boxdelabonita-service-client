@@ -35,7 +35,7 @@ function UploadProducts() {
 
     // useEffect(() => {
     //     if (cookie !== undefined){
-    //         fetch('https://boxdelabonita-server.onrender.com/verify-token', {
+    //         fetch('https://boxdelabonita.com/api/verify-token', {
     //             method: 'POST',
     //             headers: {
     //                 'Content-Type': 'application/json'
@@ -85,7 +85,7 @@ function UploadProducts() {
          }));
 
 
-        await fetch('https://boxdelabonita-server.onrender.com/upload-products', {
+        await fetch('https://boxdelabonita.com/api/upload-products', {
             method: 'POST',
             
             body: formData

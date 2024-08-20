@@ -15,7 +15,7 @@ function Products() {
     const [backdrop, setBackdrop] = useState(false);
 
     useEffect(() => {
-        fetch('https://boxdelabonita-server.onrender.com/fetch-products').then(res => res.json()).then(result => {
+        fetch('https://boxdelabonita.com/api/fetch-all-products').then(res => res.json()).then(result => {
             if (result.status === 'success'){
                 setProducts(result.data);
             }

@@ -51,7 +51,7 @@ const AddMoreImg = ({ product, idx }) => {
         formData.append('data', JSON.stringify({ title: product.title, category: product.category }));
         formData.append('photo', newImg);
 
-        await fetch('https://boxdelabonita-server.onrender.com/add-new-img', {
+        await fetch('https://boxdelabonita.com/api/add-new-img', {
             method: 'POST',
             body: formData
         }).then(res => res.json()).then(data => {

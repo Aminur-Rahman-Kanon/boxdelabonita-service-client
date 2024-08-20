@@ -10,7 +10,7 @@ const ChangeStatusBtn = ({ id, changeStatus, toggleCount, currentStatus, setChan
 
     const submitStatusHandler = async () => {
         setIsLoading(true);
-        await fetch('https://boxdelabonita-server.onrender.com/change-order-status', {
+        await fetch('https://boxdelabonita.com/api/change-order-status', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
